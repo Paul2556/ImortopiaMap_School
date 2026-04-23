@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Imortopia Map</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0b0f14;
+    color: white;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* LEFT PANEL */
+.sidebar {
+    width: 280px;
+    background: #0f1720;
+    padding: 20px;
+    border-right: 1px solid #1f2a38;
+}
+
+h1 {
+    margin: 0;
+    font-size: 26px;
+}
+
+.subtitle {
+    font-size: 12px;
+    color: #9aa4b2;
+    margin-bottom: 20px;
+}
+
+.section {
+    margin-top: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+}
+
+.color-box {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.restricted {
+    background: #2a0f12;
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 6px;
+}
+
+/* MAP */
+.map {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+svg {
+    background: #0d1218;
+    border: 2px solid #1f2a38;
+}
+
+.zone {
+    stroke: #ffffff30;
+    stroke-width: 2;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.zone:hover {
+    filter: brightness(1.3);
+}
+
+.label {
+    fill: white;
+    font-size: 14px;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.rr {
+    fill: red;
+    font-size: 10px;
+}
+
+/* COLORS */
+.c1 { fill: #3b82f6; }
+.c3 { fill: #22c55e; }
+.c4 { fill: #eab308; }
+.c5 { fill: #f97316; }
+.c7 { fill: #b91c1c; }
+.c8 { fill: #a855f7; }
+.c9 { fill: #ec4899; }
+.c10 { fill: #14b8a6; }
+.c11 { fill: #6366f1; }
+.c12 { fill: #facc15; }
+.c13 { fill: #1f2937; }
+.cred { fill: #dc2626; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LEFT PANEL -->
+    <div class="sidebar">
+        <h1>Imortopia Map</h1>
+        <div class="subtitle">Click on any area to view details</div>
+
+        <div class="section">
+            <b>LEGEND</b>
+
+            <div class="legend-item"><div class="color-box c1"></div>1 HCC Hotel</div>
+            <div class="legend-item"><div class="color-box c3"></div>3 FREE FLY™ Service</div>
+            <div class="legend-item"><div class="color-box c4"></div>4 FREE FLY™ Register</div>
+            <div class="legend-item"><div class="color-box c5"></div>5 Elevator</div>
+            <div class="legend-item"><div class="color-box c7"></div>7 Colosseum Fight</div>
+            <div class="legend-item"><div class="color-box c8"></div>8 Gift Shop</div>
+            <div class="legend-item"><div class="color-box c9"></div>9 Disco Floor</div>
+            <div class="legend-item"><div class="color-box c10"></div>10 Guillotine Service</div>
+            <div class="legend-item"><div class="color-box c11"></div>11 Ship of Chaos</div>
+            <div class="legend-item"><div class="color-box c12"></div>12 Cafe</div>
+            <div class="legend-item"><div class="color-box c13"></div>13 FPS in Reality™</div>
+        </div>
+
+        <div class="restricted">
+            <b>RESTRICTED</b>
+            <div>2 Restrictive Staff Only (RR)</div>
+            <div>6 Restrictive Select Personal Only (RR)</div>
+        </div>
+        <div class="section">
+            <b>COLOR CODE</b>
+
+            <div class="legend-item">
+                <div class="color-box" style="background:#3b82f6;"></div>
+                Accommodation / Core Services
+            </div>
+
+            <div class="legend-item">
+                <div class="color-box" style="background:#22c55e;"></div>
+                Movement / Transport
+            </div>
+
+            <div class="legend-item">
+                <div class="color-box" style="background:#eab308;"></div>
+                Registration / Access
+            </div>
+
+            <div class="legend-item">
+                <div class="color-box" style="background:#f97316;"></div>
+                Combat / Activity
+            </div>
+
+            <div class="legend-item">
+                <div class="color-box" style="background:#a855f7;"></div>
+                Shops / Leisure
+            </div>
+
+            <div class="legend-item">
+                <div class="color-box" style="background:#ec4899;"></div>
+                Entertainment
+            </div>
+
+            <div class="legend-item">
+                <div class="color-box" style="background:#14b8a6;"></div>
+                Special Services
+            </div>
+
+            <div class="legend-item">
+                <div class="color-box" style="background:#1f2937;"></div>
+                Main Area / Core Zone
+            </div>
+
+            <div class="legend-item">
+                <div class="color-box" style="background:#dc2626;"></div>
+                Restricted (RR)
+            </div>
+        </div>
+    </div>
+
+    <!-- MAP -->
+    <div class="map">
+            <div style="
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 900 / 750;
+            border: 2px solid #1f2a38;
+            background: #0d1218;
+        ">
+        <svg viewBox="0 0 900 750" preserveAspectRatio="xMidYMid meet" style="width:100%; height:100%;">
+            <!-- RESPAWN POINT (aligned properly) -->
+            <rect class="zone"
+                x="380" y="350"
+                width="60" height="60"
+                fill="#374151"
+                onclick="show('R')"
+            />
+
+            <text x="410" y="390"
+                text-anchor="middle"
+                dominant-baseline="middle"
+                style="font-size:28px; font-weight:bold; fill:white;">
+                R
+            </text>
+            <!-- 13 -->
+            <polygon class="zone c13" points="50,100 300,100 300,550 50,550"
+                onclick="show(13)"/>
+            <text x="150" y="350" class="label">13</text>
+
+            <!-- 2 (triangle attached) -->
+            <polygon class="zone cred"
+                points="50,250 50,330 20,290"
+                onclick="show(2)"/>
+            <text x="35" y="295" class="label">2</text>
+            <text x="30" y="270" class="rr">RR</text>
+
+            <!-- 11 -->
+            <polygon class="zone c11" points="320,80 420,80 420,140 320,140"
+                onclick="show(11)"/>
+            <text x="360" y="115" class="label">11</text>
+
+            <!-- 7 -->
+            <polygon class="zone c7" points="440,80 620,80 620,140 440,140"
+                onclick="show(7)"/>
+            <text x="520" y="115" class="label">7</text>
+
+            <!-- 12 -->
+            <rect class="zone c12" x="350" y="160" width="120" height="120"
+                onclick="show(12)"/>
+            <text x="400" y="220" class="label">12</text>
+
+            <!-- 8 -->
+            <rect class="zone c8" x="480" y="160" width="120" height="120"
+                onclick="show(8)"/>
+            <text x="530" y="220" class="label">8</text>
+
+            <!-- 9 -->
+            <rect class="zone c9" x="480" y="300" width="140" height="160"
+                onclick="show(9)"/>
+            <text x="550" y="380" class="label">9</text>
+
+            <!-- 10 -->
+            <rect class="zone c10" x="380" y="480" width="200" height="60"
+                onclick="show(10)"/>
+            <text x="480" y="520" class="label">10</text>
+
+            <!-- RIGHT COLUMN -->
+            <rect class="zone c1" x="640" y="100" width="60" height="80"
+                onclick="show(1)"/>
+            <text x="660" y="145" class="label">1</text>
+            <rect class="zone c13" x="640" y="190" width="60" height="80"
+                onclick="show(13)"/>
+            <text x="660" y="235" class="label">13</text>
+            <rect class="zone c3" x="640" y="280" width="60" height="80"
+                onclick="show(3)"/>
+            <text x="660" y="325" class="label">3</text>
+            <rect class="zone c4" x="640" y="370" width="60" height="80"
+                onclick="show(4)"/>
+            <text x="660" y="415" class="label">4</text>
+            <rect class="zone c5" x="640" y="460" width="60" height="80"
+                onclick="show(5)"/>
+            <text x="660" y="505" class="label">5</text>
+
+            <!-- 6 -->
+            <polygon class="zone cred"
+                points="640,560 700,560 700,670 640,640"
+                onclick="show(6)"/>
+            <text x="660" y="620" class="label">6</text>
+            <text x="680" y="580" class="rr">RR</text>
+
+        </svg>
+
+        <div id="infoBox" style="
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #111827;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid #1f2a38;
+        ">
+        Click a zone
+        </div>
+    </div>
+
+</div>
+
+<script>
+function show(id){
+    const data = {
+        1: "HCC Hotel",
+        2: "Restrictive Staff Only (RR)",
+        3: "FREE FLY™ Service",
+        4: "FREE FLY™ Register",
+        5: "Elevator",
+        6: "Restrictive Select Personal Only (RR)",
+        7: "Colosseum Fight",
+        8: "Gift Shop",
+        9: "Disco Floor",
+        10: "Guillotine Service",
+        11: "Ship of Chaos",
+        12: "Cafe",
+        13: "FPS in Reality™ (Battleground/Register)",
+        "R": "Respawn Point"
+    };
+
+    document.getElementById("infoBox").innerHTML =
+        "<b>" + id + "</b><br>" + data[id];
+}
+</script>
+
+</body>
+</html>
