@@ -58,16 +58,30 @@ svg {
 
 .close-btn {
     position: absolute;
-    top: 10px;
-    right: 12px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
+    top: 8px;
+    right: 8px;
+
+    width: 28px;
+    height: 28px;
+
+    background: #1f2937;
+    border: none;
+    border-radius: 6px;
+
     color: white;
+    font-size: 16px;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    z-index: 10000;
 }
 
 .close-btn:hover {
-    color: white;
+    background: #374151;
 }
 /* COLORS */
 .c1 { fill: #3b82f6; }
@@ -90,18 +104,32 @@ svg {
     left: 50%;
     transform: translateX(-50%);
     background: #111827;
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
     border: 1px solid #1f2a38;
     width: 80%;
     max-width: 400px;
-    text-align: center;
-
     z-index: 9999;
-
-    position: relative; /* this makes ✕ work */
 }
 
+/* HEADER WITH BUTTON */
+.popup-header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* BUTTON */
+.popup-header button {
+    background: #1f2937;
+    border: none;
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* CONTENT */
 #popup-content {
     margin-top: 10px;
 }
@@ -120,6 +148,30 @@ svg {
     background: #0f1720;
     padding: 20px;
     overflow-y: auto;
+    z-index: 2000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+.legend:not(.hidden) {
+    transform: translateX(0);
+}
+/* HEADER */
+.legend-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* CLOSE BUTTON */
+.legend-header button {
+    background: #1f2937;
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 </style>
 </head>
@@ -217,11 +269,17 @@ svg {
 </div>
 
 <div id="popup" class="popup hidden">
-    <span class="close-btn" onclick="closePopup()">✕</span>
+    <div class="popup-header">
+        <button onclick="closePopup()">X</button>
+    </div>
     <div id="popup-content"></div>
 </div>
 
 <div id="legend" class="legend hidden">
+    <div class="legend-header">
+        <span>Legend</span>
+        <button onclick="toggleLegend()">✕</button>
+    </div>
     <h3>Legend</h3>
     <p>1 HCC Hotel</p>
     <p>3 FREE FLY™ Service</p>
